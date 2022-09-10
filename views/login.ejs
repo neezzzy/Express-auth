@@ -1,16 +1,42 @@
-<h1>Sign in</h1>
-<% if (messages.error) { %>
-  <%= messages.error %>
-    <% } %>
-      <form action="/login" method="post">
-        <section>
-          <label for="username">Username</label>
-          <input id="username" name="username" type="text" autocomplete="username" required autofocus>
-        </section>
-        <section>
-          <label for="current-password">Password</label>
-          <input id="current-password" name="password" type="password" autocomplete="current-password" required>
-        </section>
-        <button type="submit">Sign in</button>
-      </form>
-      <a href="/register">Register</a>
+<head>
+  <%- include('../views/partials/head.ejs'); %>
+    <title>Chatter App with Socket.IO</title>
+
+</head>
+
+<body>
+  <div class="login-root">
+    <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
+      <div class="formbg-outer">
+        <div class="formbg">
+          <div class="formbg-inner padding-horizontal--48">
+            <span class="padding-bottom--15 text-center">Sign in to your account</span>
+            <% if (messages.error) { %>
+              <%= messages.error %>
+                <% } %>
+                  <form action="/login" method="post" id="stripe-login">
+                    <div class="field padding-bottom--24">
+                      <label for="username">Username</label>
+                      <input id="username" name="username" type="text" autocomplete="username" required autofocus>
+                    </div>
+                    <div class="field padding-bottom--24">
+                      <label for="current-password">Password</label>
+                      <input id="current-password" name="password" type="password" autocomplete="current-password"
+                        required>
+                    </div>
+                    <div class="field padding-bottom--24">
+
+                      <div class="field">
+                        <input class="ssolink" type="submit"></input>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="field">
+                    <a class="ssolink" href="/register">Register</a>
+                  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

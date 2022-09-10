@@ -1,3 +1,4 @@
+require("dotenv").config();
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -8,19 +9,18 @@ const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
 const passportConfig = require("./config/passport");
-require("dotenv").config();
-
 // routes
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login");
 const registerRouter = require("./routes/register");
-
 const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(flash());
+
+// session middleware
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -33,7 +33,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 passportConfig(passport);
-
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -62,7 +61,11 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: "true" });
+// connect mongoose
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 mongoose.connection.on("error", (err) => {
   console.log("err", err);
 });
