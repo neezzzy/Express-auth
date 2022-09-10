@@ -3,10 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "prepare": "husky install",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -24,8 +21,6 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "husky": "^8.0.0",
-    "nodemon": "^2.0.19",
-    "prettier": "2.7.1"
+    "nodemon": "^2.0.19"
   }
 }
