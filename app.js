@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const passportConfig = require("./config/passport");
 // routes
 const indexRouter = require("./routes/index");
@@ -20,12 +21,22 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(flash());
 
+// connect mongoose
+const dbString = process.env.MONGODB_URI;
+const dbOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
+const connection = mongoose.createConnection(dbString, dbOptions);
+
 // session middleware
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: dbString }),
   })
 );
 
@@ -59,18 +70,6 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
-});
-
-// connect mongoose
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-mongoose.connection.on("error", (err) => {
-  console.log("err", err);
-});
-mongoose.connection.on("connected", (err, res) => {
-  console.log("mongoose is connected");
 });
 
 module.exports = app;
